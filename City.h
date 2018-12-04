@@ -24,7 +24,8 @@ typedef enum CityResult_t{
     CITY_CITIZEN_CAN_NOT_SUPPORT
 }CityResult;
 void CityPrint(City city);
-Id CityGetId(City);
+
+int CityGetId(City);
 //124:changed from Name to String
 String CityGetName(City);
 void CityDestroy(City);
@@ -35,8 +36,8 @@ bool CityIsLegal(City );
 bool CityIsCandidate(City,int );
 CityResult  CitySupportCandidate(City,Citizen,int candidate_id,int priority);
 Citizen CityGetCitizen(City ,int );
-CitizenResult CityInsertCitizen(City, Citizen);
-CitizenResult CityRemoveCitizen(City, Citizen);
+CitizenResult CityInsertCitizen(City ,const String citizen_name, int citizen_id,
+                                 int citizen_age, int education_years);
 CandidateResult CityInsertCandidate(City, int);
 CandidateResult CityRemoveCandidate(City,Candidate);
 void CityChangeInformation(City,const String,int);

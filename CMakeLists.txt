@@ -11,6 +11,7 @@ add_executable(3011
         uniqueOrderedList/uniqueOrderedList.h
         citizen.c
         citizen.h
+        mtm_elections.c
         mtm_elections.h
         mtm_print.c
         mtm_print.h

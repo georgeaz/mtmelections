@@ -38,13 +38,13 @@ void CitizenDestroy(Citizen );
 Citizen CitizenCopy(Citizen );
 void CitizenGetInformation(Citizen ,Information ,CitizenInformation );
 Vote CitizenFindPrefernce(Citizen,int);
-bool CitizenCompere(Citizen ,Citizen );
+bool CitizenCompare(Citizen ,Citizen );
 void CitizenRemovePreferences(Citizen);
 int CitizenGetid(Citizen citizen);
 void CitizenRemovePrefrence(Citizen,int);
 void CitizenCandidateToBeRemovePrefrences(Citizen );
 bool CitizenCandidateAlreadySupported(City,Citizen,int candidate_id,int priority);
 bool CitizenSupportCandidate(Citizen,int candidate_id,int priority);
-void CitizenChangeInformation(Citizen ,int id,const String name,int education_years,int age);
+void CitizenInsertInformation(Citizen ,int id,const String name,int education_years,int age);
 void PrintCitizen(Citizen citizen);
 #endif //HOMEWORK2ELECTIONS_CITIZEN_H

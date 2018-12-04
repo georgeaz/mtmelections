@@ -73,7 +73,6 @@ UniqueOrderedList mtmElectionsPerformElections(MtmElections mtmElections, RankFu
 
 MtmElectionsResult mtmElectionsMayorOfCity(MtmElections mtmElections, int cityId, int* mayor, const char* filename);
 
-bool mtmElectionsIsLegal(int ,mtmElectionsGeneralInput );
 
 
 

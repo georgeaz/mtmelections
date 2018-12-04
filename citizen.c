@@ -22,13 +22,10 @@ void PrintCitizen(Citizen citizen){
     printf("Citizen Education Years:%d\n",*citizen->education_years);
     printf("----------------------\n");
 
-
 }
 
 Citizen CitizenCreate(){
-    //zbe
-    //Name name=(Name)malloc(sizeof(*name));
-    //malloc for name will be added in copy, since we dont know the size of name
+    //malloc for name will be added in copy, since we dont know the size of name yet
     Citizen citizen=(Citizen)malloc(sizeof(*citizen));
     Age age=(Age)malloc(sizeof(*age));
     Id id=(Id)malloc(sizeof(*id));
@@ -93,7 +90,7 @@ bool CitizenCandidateAlreadySupported(City city, Citizen citizen, int candidate_
     //switch(result
 
 }
-bool CitizenCompere(Citizen old_citizen,Citizen new_citizen){
+bool CitizenCompare(Citizen old_citizen,Citizen new_citizen){
     return old_citizen->id==new_citizen->id;
 }
 
@@ -138,7 +135,7 @@ int CitizenGetid(Citizen citizen){
 }
 //maybe no:
 
-void CitizenChangeInformation(Citizen citizen,int id,const String name,int education_years,int age){
+void CitizenInsertInformation(Citizen citizen,int id,const String name,int education_years,int age){
     *(citizen->id)=id;
     citizen->name=(String)malloc(sizeof(String*)*Stringlength(name));
     if(citizen->name==NULL){

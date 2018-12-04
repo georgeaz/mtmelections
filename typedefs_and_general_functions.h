@@ -29,7 +29,7 @@ typedef int Priority;
 #define FIRST_CITIZEN_LEGAL_ID 0
 #define FIRST_CITY_LEGAL_ID 0
 #define LAST_BIT 1
-
+#define DOES_NOT_EXIST NULL
 
 //String StringCopy(String);
 void StringCopy(const String source_string,String destination);

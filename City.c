@@ -25,8 +25,9 @@ void CityPrint(City city){
       citizen= setGetNext(city->citizens);
     }
 }
-Id CityGetId(City city){
-    return city->id;
+
+int CityGetId(City city){
+    return *(city->id);
 }
 String CityGetName(City city){
     return  city->name;
@@ -39,7 +40,7 @@ void CityDestroy(City city){
 }
 City CityCreate(){
     City city=(City)malloc(sizeof(*city));
-    Set citizens=setCreate((copySetElements)CitizenCopy,(freeSetElements)CitizenDestroy,(compareSetElements)CitizenCompere);
+    Set citizens=setCreate((copySetElements)CitizenCopy,(freeSetElements)CitizenDestroy,(compareSetElements)CitizenCompare);
     Set candidates=setCreate((copySetElements)CandidateCopy,(freeSetElements)CandidateDestroy,(compareSetElements)CandidateCompare);
 
     Id id=(Id)malloc(sizeof(*id));
@@ -71,9 +72,14 @@ City CityCopy(City source_city){
     new_city->id=source_city->id;
         return new_city;
 }
-CitizenResult CityInsertCitizen(City city, Citizen citizen){
+CitizenResult CityInsertCitizen(City city,const String citizen_name,
+        int citizen_id, int citizen_age, int education_years){
         //the whole function were replaced
-    SetResult result=setAdd(city->citizens,citizen);
+        Citizen new_citizen=CitizenCreate();
+        if(new_citizen==NULL)return CITIZEN_MEMORY_ERROR;
+        CitizenInsertInformation(new_citizen,citizen_id,citizen_name,
+                education_years,citizen_age);
+    SetResult result=setAdd(city->citizens,new_citizen);
     switch(result){
         case SET_NULL_ARGUMENT:
             return CITIZEN_NULL_ARGUMENT;
