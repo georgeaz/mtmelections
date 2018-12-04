@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/George/Desktop/2511/main.c
+stdio.h
+-
+uniqueOrderedList.h
+C:/Users/George/Desktop/2511/uniqueOrderedList.h
+stdbool.h
+-
+assert.h
+-
+stdlib.h
+-
+
+C:/Users/George/Desktop/2511/uniqueOrderedList.h
+stdbool.h
+-
+
