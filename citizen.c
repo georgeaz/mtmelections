@@ -26,6 +26,7 @@ void PrintCitizen(Citizen citizen){
 }
 
 Citizen CitizenCreate(){
+    //zbe
     //Name name=(Name)malloc(sizeof(*name));
     //malloc for name will be added in copy, since we dont know the size of name
     Citizen citizen=(Citizen)malloc(sizeof(*citizen));
