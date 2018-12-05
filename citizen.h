@@ -30,7 +30,8 @@ typedef enum CitizenInformation_t{
   CITIZEN_ID,
   CITIZEN_NAME,
   CITIZEN_EDUCATION_YEARS,
-  CITIZEN_AGE
+  CITIZEN_AGE,
+  CITIZEN_CITY_ID
 }CitizenInformation;
 
 Citizen CitizenCreate();

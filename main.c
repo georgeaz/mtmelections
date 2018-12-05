@@ -11,7 +11,7 @@ void freeInt(void* e){
 
 int main() {
 City city=CityCreate();
-CityChangeInformation(city,"Jadda",11);
+    CityInsertInformation(city, "Jadda", 11);
 //Citizen firstcitizen=CitizenCreate();
 //CitizenChangeInformation(firstcitizen,31644,"Lina",3,20);
 //Citizen secondCitizen=CitizenCreate();

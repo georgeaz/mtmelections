@@ -30,7 +30,10 @@ Citizen CitizenCreate(){
     Age age=(Age)malloc(sizeof(*age));
     Id id=(Id)malloc(sizeof(*id));
     EducationYears education_years=(EducationYears)malloc(sizeof(*education_years));
-    UniqueOrderedList citizen_prefrences=uniqueOrderedListCreate((copyElements)PreferenceCopy,(freeElements)PreferenceDestroy,(elementsEquals)PreferenceIsEquals,(elementGreaterThan)PreferenceCompare);
+    UniqueOrderedList citizen_prefrences= uniqueOrderedListCreate((copyElements) PreferenceCopy,
+                                                                  (freeElements) PreferenceDestroy,
+                                                                  (elementsEquals) PreferenceIsEqual,
+                                                                  (elementGreaterThan) PreferenceCompare);
     if(citizen==NULL||age==NULL||id==NULL||education_years==NULL||citizen_prefrences==NULL){
         free(citizen);
         free(age);

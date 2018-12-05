@@ -11,7 +11,10 @@ typedef enum mtmElectionsGeneralInput_t{
     GENERAL_ID,
     GENERAL_AGE,
     GENERAL_EDUCATION_YEARS,
-    GENERAL_
+    GENERAL_CITIZEN_ID,
+    GENERAL_CITY_ID,
+    GENERAL_CANDIDATE_ID,
+    GENERAL_CITIZEN_PRIORITY
 }mtmElectionsGeneralInput;
 typedef struct  City_t* City;
 typedef struct Citizen_t * Citizen;

@@ -40,6 +40,6 @@ CitizenResult CityInsertCitizen(City ,const String citizen_name, int citizen_id,
                                  int citizen_age, int education_years);
 CandidateResult CityInsertCandidate(City, int);
 CandidateResult CityRemoveCandidate(City,Candidate);
-void CityChangeInformation(City,const String,int);
+void CityInsertInformation(City, const String, int);
 
 #endif //UNTITLED1_CITY_H

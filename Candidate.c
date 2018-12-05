@@ -23,7 +23,7 @@ void CandidateDestroy(Candidate candidate){
     free(candidate->id);
     free(candidate);
 }
-void CandidateChangeId(Candidate candidate,int id){
+void CandidateInsertInformation(Candidate candidate,int id){
     *(candidate->id)=id;
 }
 Candidate CandidateCopy(Candidate source_candidate){

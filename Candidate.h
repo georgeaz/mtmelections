@@ -21,7 +21,7 @@ typedef enum CandidateResult_t{
 }CandidateResult;
 
 int CandidateGetId(Candidate candidate);
-void CandidateChangeId(Candidate,int);
+void CandidateInsertInformation(Candidate,int);
 Candidate CandidateCreate();
 void CandidateDestroy(Candidate);
 Candidate CandidateCopy(Candidate );

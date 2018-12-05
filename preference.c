@@ -42,8 +42,8 @@ Vote PreferenceCopy(Vote source_prefernce){
     new_prefernece->preference_score=source_prefernce->candidate_id;
     return new_prefernece;
 }
-bool PreferenceIsEquals(Vote source_preference,Vote new_preference){
-    return source_preference->candidate_id==new_preference->candidate_id;
+bool PreferenceIsEqual(Vote source_preference, Vote new_preference){
+    return *(source_preference->candidate_id)==*(new_preference->candidate_id);
 }
 bool PreferenceCompare(Vote old_preference,Vote new_preference){
     return *(old_preference->preference_score)<=*(new_preference->preference_score);

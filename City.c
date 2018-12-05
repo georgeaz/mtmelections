@@ -149,18 +149,16 @@ Citizen CityGetCitizen(City city,int citizen_id){
 }
 CandidateResult CityInsertCandidate(City city, int candidate_id){
     if(city==NULL)return CANDIDATE_NULL_ARGUMENT;
-    if(candidate_id<FIRST_CITIZEN_LEGAL_ID)//we said that we are not using numbers
-        return CANDIDATE_ILLEGAL_ID;
-    if(!CityIsCandidateACitizen(city,candidate_id))
-        return CANDIDATE_CITIZEN_DOSE_NOT_EXIST;
+   // if(!CityIsCandidateACitizen(city,candidate_id))
+        //return CANDIDATE_CITIZEN_DOSE_NOT_EXIST;
     Citizen candidate_to_be=CityGetCitizen(city,candidate_id);
     Age candidate_to_be_age=NULL;
     CitizenGetInformation(candidate_to_be,candidate_to_be_age,CITIZEN_AGE);
-    if(*candidate_to_be_age < CANDIDATE_MINIMUM_AGE)
-        return CANDIDATE_AGE_NOT_APPROPRIATE;
+    //if(*candidate_to_be_age < CANDIDATE_MINIMUM_AGE)
+       // return CANDIDATE_AGE_NOT_APPROPRIATE;
     CitizenCandidateToBeRemovePrefrences(candidate_to_be);
     Candidate candidate=CandidateCreate();
-    CandidateChangeId(candidate,candidate_id);
+    CandidateInsertInformation(candidate,candidate_id);
     SetResult add_candidate_result=setAdd(city->candidates,candidate);
     switch (add_candidate_result){
         case SET_NULL_ARGUMENT:
@@ -172,8 +170,7 @@ CandidateResult CityInsertCandidate(City city, int candidate_id){
         default:return CANDIDATE_SUCCESS;
     }
 }
-
-void CityChangeInformation(City city,const String name,int id){
+void CityInsertInformation(City city, const String name, int id){
     *(city->id)=id;
    city->name=(String)malloc(sizeof(String*)*Stringlength(name));
     if(city->name==NULL){
@@ -197,7 +194,7 @@ CityResult  CitySupportCandidate(City city,Citizen citizen,int candidate_id,int 
     if (candidate == NULL)
         return CITY_NOT_THE_SAME_CITY;
     if (CitizenCandidateAlreadySupported(city, citizen, candidate_id, priority))
-        return CITY_CANDIDATE_ALREADY_SUPPORTED;
+            return CITY_CANDIDATE_ALREADY_SUPPORTED;
    if (CityIsCandidate(city,candidate_id))
         return CITY_CITIZEN_CAN_NOT_SUPPORT;
     if(!(CitizenSupportCandidate(citizen,candidate_id,priority)))
@@ -207,8 +204,11 @@ CityResult  CitySupportCandidate(City city,Citizen citizen,int candidate_id,int 
 
 bool CityIsCandidate(City city,int candidate_id) {
     Candidate candidate = CandidateCreate();
-    CandidateChangeId(candidate, candidate_id);
-    if (setIsIn(city->candidates, candidate))
+    CandidateInsertInformation(candidate, candidate_id);
+    if (setIsIn(city->candidates, candidate)) {
+        CandidateDestroy(candidate);
         return true;
+    }
+    CandidateDestroy(candidate);
     return false;
 }

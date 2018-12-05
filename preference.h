@@ -9,7 +9,7 @@
 
 
 bool PreferenceCompare(Vote,Vote);
-bool PreferenceIsEquals(Vote,Vote);
+bool PreferenceIsEqual(Vote, Vote);
 Vote PreferenceCopy(Vote);
 void PreferenceDestroy(Vote);
 void PreferenceChangeInformation(Vote,int,int);
