@@ -74,6 +74,7 @@ City CityCopy(City source_city){
 }
 CitizenResult CityInsertCitizen(City city,const String citizen_name,
         int citizen_id, int citizen_age, int education_years){
+    //lkjk
         //the whole function were replaced
         Citizen new_citizen=CitizenCreate();
         if(new_citizen==NULL)return CITIZEN_MEMORY_ERROR;
