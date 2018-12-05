@@ -184,10 +184,13 @@ void CityChangeInformation(City city,const String name,int id){
 //            StringCopy(name);
 }
 CandidateResult CityRemoveCandidate(City city,Candidate candidate){
-  //  SetResult remove_candidate_result=setRemove(city->candidates,candidate);
-    //switch (remove_candidate_result){
-    return CANDIDATE_NULL_ARGUMENT;
-    }
+   SetResult result=setRemove(city->candidates,candidate);
+    switch (result){
+        case SET_NULL_ARGUMENT:return CANDIDATE_NULL_ARGUMENT;
+        case SET_ITEM_DOES_NOT_EXIST:return CANDIDATE_DOES_NOT_EXIST;
+        default:return CANDIDATE_SUCCESS;
+           }
+
 //we assume here that the candidate is already a citizen!
 CityResult  CitySupportCandidate(City city,Citizen citizen,int candidate_id,int priority) {
     Citizen candidate = CityGetCitizen(city, candidate_id);
