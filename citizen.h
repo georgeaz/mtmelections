@@ -23,7 +23,8 @@ typedef enum CitizenResult_t{
     CITIZEN_ALREADY_EXISTS,
     CITIZEN_DOES_NOT_EXIST,
     CITIZEN_SUCCESS,
-    CITIZEN_CANDIDATE_ALREADY_SIPPORETED
+    CITIZEN_CANDIDATE_ALREADY_SIPPORETED,
+    CITIZEN_DOES_NOT_SUPPORT_CANDIDATE
 }CitizenResult;
 
 typedef enum CitizenInformation_t{
@@ -37,12 +38,13 @@ typedef enum CitizenInformation_t{
 Citizen CitizenCreate();
 void CitizenDestroy(Citizen );
 Citizen CitizenCopy(Citizen );
-void CitizenGetInformation(Citizen ,Information ,CitizenInformation );
-Vote CitizenFindPrefernce(Citizen,int);
-bool CitizenCompare(Citizen ,Citizen );
+Information CitizenGetInformation(Citizen ,CitizenInformation );
+Preference CitizenFindPrefernce(Citizen,int);
+
+int CitizenCompare(Citizen ,Citizen );
 void CitizenRemovePreferences(Citizen);
 int CitizenGetid(Citizen citizen);
-void CitizenRemovePrefrence(Citizen,int);
+CitizenResult CitizenRemovePrefrence(Citizen,int);
 void CitizenCandidateToBeRemovePrefrences(Citizen );
 bool CitizenCandidateAlreadySupported(City,Citizen,int candidate_id,int priority);
 bool CitizenSupportCandidate(Citizen,int candidate_id,int priority);

@@ -22,6 +22,7 @@ void CityPrint(City city){
     Citizen citizen=setGetFirst(city->citizens);
     while(citizen){
         PrintCitizen(citizen);
+        if(CityIsCandidate(city,CitizenGetid(citizen)))
       citizen= setGetNext(city->citizens);
     }
 }
@@ -33,8 +34,8 @@ String CityGetName(City city){
     return  city->name;
 }
 void CityDestroy(City city){
-    free(city->name);
-    free(city->id);
+   free(city->name);
+   free(city->id);
     setDestroy(city->citizens);
     free(city);
 }
@@ -65,11 +66,11 @@ City CityCopy(City source_city){
     new_city->citizens=setCopy(source_city->citizens);
     new_city->name=(String)malloc(sizeof(String*)*Stringlength(source_city->name));
     StringCopy(source_city->name,new_city->name);
+    *(new_city->id)=*(source_city->id);
     if(new_city->name==NULL||new_city->citizens==NULL){
         CityDestroy(new_city);
         return NULL;
     }
-    new_city->id=source_city->id;
         return new_city;
 }
 CitizenResult CityInsertCitizen(City city,const String citizen_name,
@@ -105,8 +106,9 @@ CitizenResult CityRemoveCitizen(City city, Citizen citizen){
        default:return CITIZEN_SUCCESS;
    }
 }
-bool CityCompare(City old_city,City new_city){
-    return old_city->id==new_city->id;
+
+int CityCompare(City old_city,City new_city){
+   return (CityGetId(old_city)-CityGetId(new_city));
 }
 bool CityIsLegal(City city){
     return (*(city->id)>=FIRST_CITY_LEGAL_ID);
@@ -142,20 +144,18 @@ bool CityIsCandidateACitizen(City city,int candidate_to_be_id){
  * the function will return NULL.
  */
 Citizen CityGetCitizen(City city,int citizen_id){
-    Citizen citizen=setGetFirst(city->citizens);
-    while(CitizenGetid(citizen)!=citizen_id)
-        citizen=setGetNext(city->citizens);
-    return citizen;
+   //125:
+   if(city==DOES_NOT_EXIST)
+       return DOES_NOT_EXIST;
+   //the whole function were replaced with set for each
+    SET_FOREACH(Citizen,citizen,city->citizens)
+    if(CitizenGetid(citizen)==citizen_id)
+        return citizen;
+    return DOES_NOT_EXIST;
 }
 CandidateResult CityInsertCandidate(City city, int candidate_id){
     if(city==NULL)return CANDIDATE_NULL_ARGUMENT;
-   // if(!CityIsCandidateACitizen(city,candidate_id))
-        //return CANDIDATE_CITIZEN_DOSE_NOT_EXIST;
     Citizen candidate_to_be=CityGetCitizen(city,candidate_id);
-    Age candidate_to_be_age=NULL;
-    CitizenGetInformation(candidate_to_be,candidate_to_be_age,CITIZEN_AGE);
-    //if(*candidate_to_be_age < CANDIDATE_MINIMUM_AGE)
-       // return CANDIDATE_AGE_NOT_APPROPRIATE;
     CitizenCandidateToBeRemovePrefrences(candidate_to_be);
     Candidate candidate=CandidateCreate();
     CandidateInsertInformation(candidate,candidate_id);
@@ -195,13 +195,16 @@ CityResult  CitySupportCandidate(City city,Citizen citizen,int candidate_id,int 
         return CITY_NOT_THE_SAME_CITY;
     if (CitizenCandidateAlreadySupported(city, citizen, candidate_id, priority))
             return CITY_CANDIDATE_ALREADY_SUPPORTED;
-   if (CityIsCandidate(city,candidate_id))
+   if (CityIsCandidate(city,CitizenGetid(citizen)))
         return CITY_CITIZEN_CAN_NOT_SUPPORT;
     if(!(CitizenSupportCandidate(citizen,candidate_id,priority)))
         return CITY_CITIZEN_PRIORITY_EXISTS;
     return CITY_SUCCESS;
 }
-
+void CityCitizenRemovePrefrence(City city,int candidate_id){
+    SET_FOREACH(Citizen,citizen,city->citizens)
+    CitizenRemovePrefrence( citizen,candidate_id);
+}
 bool CityIsCandidate(City city,int candidate_id) {
     Candidate candidate = CandidateCreate();
     CandidateInsertInformation(candidate, candidate_id);

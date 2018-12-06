@@ -82,9 +82,9 @@ Citizen CitizenCopy(Citizen source_citizen){
  * returns CITIZEN_ALREADY_SIPPORETED in case of the citizen is already supporting this candidate, otherwise, CITIZEN_SUCCESS
  */
 bool CitizenCandidateAlreadySupported(City city, Citizen citizen, int candidate_id,int priority) {
-    Vote citizen_preference=PreferenceCreate();
-    PreferenceChangeInformation(citizen_preference,candidate_id,priority);
-    Vote citizen_old_preference = CitizenFindPrefernce(citizen,candidate_id);
+    Preference citizen_preference=PreferenceCreate();
+    PreferenceInsertInformation(citizen_preference, candidate_id, priority);
+    Preference citizen_old_preference = CitizenFindPrefernce(citizen,candidate_id);
     if(!citizen_old_preference)
         return false ;
     return true;
@@ -93,47 +93,52 @@ bool CitizenCandidateAlreadySupported(City city, Citizen citizen, int candidate_
     //switch(result
 
 }
-bool CitizenCompare(Citizen old_citizen,Citizen new_citizen){
-    return old_citizen->id==new_citizen->id;
+int CitizenCompare(Citizen old_citizen,Citizen new_citizen){
+    return *(old_citizen->id)-*(new_citizen->id);
 }
 
-void CitizenGetInformation(Citizen citizen,Information information,CitizenInformation desirable_information) {
+void* CitizenGetInformation(Citizen citizen,CitizenInformation desirable_information) {
     //للأمانة انا غير متأكد من الدالّة يا لينا الع!
     switch (desirable_information) {
-        case CITIZEN_ID:information = citizen->id;
-        case CITIZEN_NAME:information = citizen->name;
-        case CITIZEN_EDUCATION_YEARS:information = citizen->education_years;
-        case CITIZEN_AGE:information = citizen->age;
+        case CITIZEN_ID:return (citizen->id);
+        case CITIZEN_NAME:return  (citizen->name);
+        case CITIZEN_EDUCATION_YEARS:return (citizen->education_years);
+        case CITIZEN_AGE:return  (citizen->age);
+        default:return NULL;
     }
 }
 void CitizenCandidateToBeRemovePrefrences(Citizen citizen){
     uniqueOrderedListClear(citizen->prefrences);
 }
-Vote CitizenFindPrefernce(Citizen citizen,int candidate_id) {
-    Vote vote = uniqueOrderedListGetLowest(citizen->prefrences);
+Preference CitizenFindPrefernce(Citizen citizen,int candidate_id) {
+    Preference vote = uniqueOrderedListGetLowest(citizen->prefrences);
     while (vote) {
-        if (PreferenceGetId(vote) == candidate_id)
+        if (PreferenceCandidateGetId(vote) == candidate_id)
             return vote;
         vote = uniqueOrderedListGetNext(citizen->prefrences);
     }
     return vote;
 }
-void CitizenRemovePrefrence(Citizen citizen, int candidate_id) {
-    Vote vote =CitizenFindPrefernce(citizen,candidate_id);
+CitizenResult CitizenRemovePrefrence(Citizen citizen, int candidate_id ){
+    Preference vote =CitizenFindPrefernce(citizen,candidate_id);
+    if(vote==DOES_NOT_EXIST)
+        return CITIZEN_DOES_NOT_SUPPORT_CANDIDATE;
     uniqueOrderedListRemove(citizen->prefrences, vote);
+    return CITIZEN_SUCCESS;
 }
-/*Vote CitizenGetPrefrence(Citizen citizen,int candidate_id)
-{lina 3m tjrb lmkledet bs wleshy kter w wow !!!!
+/*Preference CitizenGetPrefrence(Citizen citizen,int candidate_id)
+{lina 3m tl3b m3 juleeeeeeeee bs wleshy kter w wow !!!!
  wow
  jd wow
 gogo wq7...
-    Vote preference=uniqueOrderedListGetLowest(citizen->prefrences);
+    Preference preference=uniqueOrderedListGetLowest(citizen->prefrences);
     while(preference) {
-        if(PreferenceGetId(preference)==candidate_id){
+        if(PreferenceCandidateGetId(preference)==candidate_id){
         }
     }
 }*/
 int CitizenGetid(Citizen citizen){
+    if(citizen==NULL)return NOT_FOUND;
     return *(citizen->id);
 }
 //maybe no:
@@ -150,8 +155,8 @@ void CitizenInsertInformation(Citizen citizen,int id,const String name,int educa
     *(citizen->education_years)=education_years;
 }
 bool CitizenSupportCandidate(Citizen citizen,int candidate_id,int priority){
-    Vote vote=PreferenceCreate();
-    PreferenceChangeInformation(vote,candidate_id,priority);
+    Preference vote=PreferenceCreate();
+    PreferenceInsertInformation(vote, candidate_id, priority);
     if(uniqueOrderedListInsert(citizen->prefrences,vote)==UNIQUE_ORDERED_LIST_ITEM_ALREADY_EXISTS)
         return false;
     return true;

@@ -31,7 +31,8 @@ String CityGetName(City);
 void CityDestroy(City);
 City CityCreate();
 City CityCopy(City);
-bool CityCompare(City ,City );
+
+int CityCompare(City ,City );
 bool CityIsLegal(City );
 bool CityIsCandidate(City,int );
 CityResult  CitySupportCandidate(City,Citizen,int candidate_id,int priority);
@@ -41,5 +42,6 @@ CitizenResult CityInsertCitizen(City ,const String citizen_name, int citizen_id,
 CandidateResult CityInsertCandidate(City, int);
 CandidateResult CityRemoveCandidate(City,Candidate);
 void CityInsertInformation(City, const String, int);
+void CityCitizenRemovePrefrence(City,int candidate_id);
 
 #endif //UNTITLED1_CITY_H

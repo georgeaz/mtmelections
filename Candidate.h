@@ -25,7 +25,7 @@ void CandidateInsertInformation(Candidate,int);
 Candidate CandidateCreate();
 void CandidateDestroy(Candidate);
 Candidate CandidateCopy(Candidate );
-bool CandidateCompare(Candidate ,Candidate);
+int CandidateCompare(Candidate ,Candidate);
 
 
 #endif //INC_3011_CANDIDATE_H

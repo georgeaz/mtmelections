@@ -19,7 +19,7 @@ typedef enum mtmElectionsGeneralInput_t{
 typedef struct  City_t* City;
 typedef struct Citizen_t * Citizen;
 typedef struct Candidate_t * Candidate;
-typedef struct  Preference_t *  Vote;
+typedef struct  Preference_t *  Preference;
 typedef int* Id;
 typedef int* Age;
 typedef char* String;
@@ -33,6 +33,7 @@ typedef int Priority;
 #define FIRST_CITY_LEGAL_ID 0
 #define LAST_BIT 1
 #define DOES_NOT_EXIST NULL
+#define NOT_FOUND -1
 
 //String StringCopy(String);
 void StringCopy(const String source_string,String destination);
