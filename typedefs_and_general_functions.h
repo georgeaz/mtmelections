@@ -20,6 +20,7 @@ typedef struct  City_t* City;
 typedef struct Citizen_t * Citizen;
 typedef struct Candidate_t * Candidate;
 typedef struct  Preference_t *  Preference;
+typedef struct Vote_t *Vote;
 typedef int* Id;
 typedef int* Age;
 typedef char* String;
@@ -34,8 +35,11 @@ typedef int Priority;
 #define LAST_BIT 1
 #define DOES_NOT_EXIST NULL
 #define NOT_FOUND -1
-
+#define NO_VOTES 0
+#define INT_NULL_ARGUMENT 0
+#define VOTE 1
 //String StringCopy(String);
 void StringCopy(const String source_string,String destination);
 size_t Stringlength( String );
+int StringCompare(const char* s1, const char* s2);
 #endif //UNTITLED1_TYPEDEFS_H

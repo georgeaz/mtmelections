@@ -9,6 +9,9 @@
 #include "citizen.h"
 #include "set.h"
 #include "Candidate.h"
+#include "Vote.h"
+#include "preference.h"
+#include "uniqueOrderedList/uniqueOrderedList.h"
 
 typedef enum CityResult_t{
     CITY_MEMORY_ERROR,
@@ -21,17 +24,18 @@ typedef enum CityResult_t{
     CITY_NOT_THE_SAME_CITY,
     CITY_CITIZEN_PRIORITY_EXISTS,
     CITY_CANDIDATE_ALREADY_SUPPORTED,
-    CITY_CITIZEN_CAN_NOT_SUPPORT
+    CITY_CITIZEN_CAN_NOT_SUPPORT,
+  CITY_NO_CANDIDATES_IN_CITY
 }CityResult;
-void CityPrint(City city);
-
+void CityPrint(City );
 int CityGetId(City);
+Set CityGetCitizens(City );
+Set CityGetCandidates(City );
 //124:changed from Name to String
 String CityGetName(City);
 void CityDestroy(City);
 City CityCreate();
 City CityCopy(City);
-
 int CityCompare(City ,City );
 bool CityIsLegal(City );
 bool CityIsCandidate(City,int );
@@ -43,5 +47,9 @@ CandidateResult CityInsertCandidate(City, int);
 CandidateResult CityRemoveCandidate(City,Candidate);
 void CityInsertInformation(City, const String, int);
 void CityCitizenRemovePrefrence(City,int candidate_id);
-
+CityResult CityMayorOfCity(City city,Id mayor);
+CitizenResult CityRemoveCitizen(City city, Citizen citizen);
+Vote CityGetCandidateVote(UniqueOrderedList, int candidate_id);
+CityResult CityUpdateCandidateVotes(UniqueOrderedList ,Vote new_vote, Vote
+old_vote);
 #endif //UNTITLED1_CITY_H

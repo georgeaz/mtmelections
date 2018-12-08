@@ -50,4 +50,5 @@ bool CitizenCandidateAlreadySupported(City,Citizen,int candidate_id,int priority
 bool CitizenSupportCandidate(Citizen,int candidate_id,int priority);
 void CitizenInsertInformation(Citizen ,int id,const String name,int education_years,int age);
 void PrintCitizen(Citizen citizen);
+Preference CitizenGetPreferredCandidate(Citizen );
 #endif //HOMEWORK2ELECTIONS_CITIZEN_H

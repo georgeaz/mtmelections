@@ -19,12 +19,9 @@ void CityPrint(City city){
     printf("People Of:%s\n",city->name);
     printf("ID:%d\n",*city->id);
     printf("======================\n");
-    Citizen citizen=setGetFirst(city->citizens);
-    while(citizen){
+    SET_FOREACH(Citizen,citizen,city->citizens)
         PrintCitizen(citizen);
-        if(CityIsCandidate(city,CitizenGetid(citizen)))
-      citizen= setGetNext(city->citizens);
-    }
+
 }
 
 int CityGetId(City city){
@@ -32,6 +29,12 @@ int CityGetId(City city){
 }
 String CityGetName(City city){
     return  city->name;
+}
+Set CityGetCitizens(City city){
+    return city->citizens;
+}
+Set CityGetCandidates(City city){
+    return city->candidates;
 }
 void CityDestroy(City city){
    free(city->name);
@@ -214,4 +217,58 @@ bool CityIsCandidate(City city,int candidate_id) {
     }
     CandidateDestroy(candidate);
     return false;
+}
+CityResult CityMayorOfCity(City city,Id mayor){
+    if(city==DOES_NOT_EXIST||mayor==NULL)return CITY_NULL_ARGUMENT;
+   // if(!CityIsLegal(city))return FIRST_CITY_LEGAL_ID;
+   if(setGetFirst(city->candidates)==DOES_NOT_EXIST)//get candidates
+       return CITY_NO_CANDIDATES_IN_CITY;
+   UniqueOrderedList votes=uniqueOrderedListCreate((copyElements)VoteCopy,
+           (freeElements)VoteDestroy,(elementsEquals)VoteIsEqual,
+           (elementGreaterThan)VoteGreaterThan);
+   SET_FOREACH(Citizen,citizen,city->citizens){//get citizens
+       void* citizen_age_pointer=CitizenGetInformation(citizen,CITIZEN_AGE);
+       int citizen_age= *(int*)(citizen_age_pointer);
+       if(citizen_age<VOTER_MINIMUM_AGE)continue;
+        Preference citizen_vote=CitizenGetPreferredCandidate(citizen);
+        if(citizen_vote==DOES_NOT_EXIST)continue;
+        int candidate_id =PreferenceGetCandidateId(citizen_vote);
+        Vote old_vote= CityGetCandidateVote(votes,candidate_id);
+        Vote new_vote=VoteCreate();
+        Citizen candidate=CityGetCitizen(city,candidate_id);
+        VoteInsertInformation(new_vote,candidate_id,
+                CitizenGetInformation(candidate,CITIZEN_NAME),
+                VoteCandidateGetVotes(old_vote)+VOTE,
+                *(int*)CitizenGetInformation(candidate,CITIZEN_EDUCATION_YEARS),
+                *(int*) CitizenGetInformation(candidate,CITIZEN_AGE));
+        if(CityUpdateCandidateVotes(votes,new_vote,old_vote)==CITY_MEMORY_ERROR)
+            return CITY_MEMORY_ERROR;
+       // printf("mayor so far:%d",VoteCandidateGetId(uniqueOrderedListGetLowest(votes)));
+   }
+   *mayor=VoteCandidateGetId(uniqueOrderedListGetLowest(votes));
+   printf("%d",*mayor);
+    return CITY_SUCCESS;
+}
+Vote CityGetCandidateVote(UniqueOrderedList votes, int candidate_id){
+    Vote votes_ptr=uniqueOrderedListGetLowest(votes);
+    while(votes_ptr){
+        if(27==candidate_id){
+            printf("a vote were found for %d\n",candidate_id);
+            return votes_ptr;}
+        votes_ptr=uniqueOrderedListGetNext(votes);
+    }
+    return NO_VOTES;
+}
+CityResult CityUpdateCandidateVotes(UniqueOrderedList votes,Vote new_vote, Vote
+old_vote){
+        uniqueOrderedListRemove(votes,old_vote);
+    UniqueOrderedListResult insert_result=
+            uniqueOrderedListInsert(votes,new_vote);
+    switch (insert_result){
+        case UNIQUE_ORDERED_LIST_OUT_OF_MEMORY:return CITY_MEMORY_ERROR;
+        case UNIQUE_ORDERED_LIST_NULL_ARGUMENT:return CITY_NULL_ARGUMENT;
+        case UNIQUE_ORDERED_LIST_ITEM_ALREADY_EXISTS:return CITY_ALREADY_EXISTS;
+        default:return CITY_SUCCESS;
+    }
+
 }

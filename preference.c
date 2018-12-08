@@ -49,8 +49,7 @@ bool PreferenceIsEqual(Preference source_preference, Preference new_preference){
 bool PreferenceCompare(Preference old_preference,Preference new_preference){
     return *(old_preference->preference_score)<=*(new_preference->preference_score);
 }
-
-int PreferenceCandidateGetId(Preference preference){
-    if(preference==NULL)return
+int PreferenceGetCandidateId(Preference preference){
+    if(preference==NULL)return NOT_FOUND;
     return *(preference->candidate_id);
 }

@@ -113,7 +113,7 @@ void CitizenCandidateToBeRemovePrefrences(Citizen citizen){
 Preference CitizenFindPrefernce(Citizen citizen,int candidate_id) {
     Preference vote = uniqueOrderedListGetLowest(citizen->prefrences);
     while (vote) {
-        if (PreferenceCandidateGetId(vote) == candidate_id)
+        if (PreferenceGetCandidateId(vote) == candidate_id)
             return vote;
         vote = uniqueOrderedListGetNext(citizen->prefrences);
     }
@@ -133,7 +133,7 @@ CitizenResult CitizenRemovePrefrence(Citizen citizen, int candidate_id ){
 gogo wq7...
     Preference preference=uniqueOrderedListGetLowest(citizen->prefrences);
     while(preference) {
-        if(PreferenceCandidateGetId(preference)==candidate_id){
+        if(PreferenceGetCandidateId(preference)==candidate_id){
         }
     }
 }*/
@@ -160,4 +160,7 @@ bool CitizenSupportCandidate(Citizen citizen,int candidate_id,int priority){
     if(uniqueOrderedListInsert(citizen->prefrences,vote)==UNIQUE_ORDERED_LIST_ITEM_ALREADY_EXISTS)
         return false;
     return true;
+}
+Preference CitizenGetPreferredCandidate(Citizen citizen){
+    return uniqueOrderedListGetLowest(citizen->prefrences);
 }

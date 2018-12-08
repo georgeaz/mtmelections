@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "uniqueOrderedList.h"
+#include "Vote.h"
 Element  uniqueOrderedListGetPreviousElemnt(UniqueOrderedList ,Element );
 //we should check if we have to use for each
 //should also check if we have to put the list struct in seperate.h file
@@ -32,14 +33,17 @@ void printiterator(UniqueOrderedList list) {
     printf("%d \n", *(int *) ((list->iterator->element)));
 
 }
-void print(UniqueOrderedList list){
+void printunique(UniqueOrderedList list){
+    printf("\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS\n");
 if(list->iterator==NULL){printf("iterator is null");
 return;}
     uniqueOrderedListGetLowest(list);
     while(list->iterator) {
-        printf("%d \n", *(int *) ((list->iterator->element)));
+        VotePrint(list->iterator->element);
        uniqueOrderedListGetNext(list);
     }
+    printf("\nDDDDDDDDDDDDDDDDDDDDDDDDDD\n");
+
 }
  void DestroyListNode(List node){//this should be inline
     free(node);

@@ -31,3 +31,9 @@ size_t Stringlength(const String  string)
 void StringCopyDestroy(String string){
     free(string);
 }
+int StringCompare(const char* s1, const char* s2)
+{
+    while(*s1 && (*s1==*s2))
+        s1++,s2++;
+    return *(const unsigned char*)s1-*(const unsigned char*)s2;
+}

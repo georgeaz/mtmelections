@@ -49,6 +49,6 @@ void PreferenceInsertInformation(Preference, int, int);
 * 	NOT_FOUND(-1) - if the Preference is NULL.
 * 	the preferred candidate id otherwise.
 */
-int PreferenceCandidateGetId(Preference);
+int PreferenceGetCandidateId(Preference);
 
 #endif //INC_3011_PREFERENCE_H

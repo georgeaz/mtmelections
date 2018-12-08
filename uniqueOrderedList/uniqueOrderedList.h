@@ -53,6 +53,7 @@ typedef enum UniqueOrderedListResult_t {
 	UNIQUE_ORDERED_LIST_ITEM_DOES_NOT_EXIST,
 	UNIQUE_ORDERED_LIST_ITEM_ALREADY_EXISTS
 } UniqueOrderedListResult;
+void printunique(UniqueOrderedList list);
 
 /* Data type for the elements of the UniqueOrderedList container*/
 typedef void* Element;
