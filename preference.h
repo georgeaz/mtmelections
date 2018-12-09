@@ -6,16 +6,19 @@
 #define INC_3011_PREFERENCE_H
 #include "typedefs_and_general_functions.h"
 #include "stdbool.h"
+void PrintPreference(Preference );
 /**PreferenceDestroy: releases the preference candidate id and score, and then
  * releases the preference.
  * */
-Preference PreferenceCopy(Preference);
+void PreferenceDestroy(Preference);
+
 /**PreferenceCopy: Creates a new copy of the preference and returns a copy of it.
  *  returns:
  *              - NULL if a NULL was sent or a memory allocation failed.
  *              - a new copy of preference otherwise.
 * */
-void PreferenceDestroy(Preference);
+Preference PreferenceCopy(Preference);
+
 /**PreferenceIsEqual: checks if two Preferences are equal, two preferences are
  * determined equal if they have the same candidate id or the same preference
  * score. returns:

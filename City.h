@@ -7,7 +7,6 @@
 
 
 #include "citizen.h"
-#include "set.h"
 #include "Candidate.h"
 #include "Vote.h"
 #include "preference.h"
@@ -27,7 +26,7 @@ typedef enum CityResult_t{
     CITY_CITIZEN_CAN_NOT_SUPPORT,
   CITY_NO_CANDIDATES_IN_CITY
 }CityResult;
-void CityPrint(City );
+//void CityPrint(City );
 int CityGetId(City);
 Set CityGetCitizens(City );
 Set CityGetCandidates(City );

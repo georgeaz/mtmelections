@@ -3,10 +3,15 @@
 //
 
 #include "preference.h"
+#include <stdio.h>
 struct Preference_t{
   Id candidate_id;
   int * preference_score;
 };
+void PrintPreference(Preference preference){
+    printf("Prefferd candidate:%d\n",*preference->candidate_id);
+    printf("score:%d\n",*preference->preference_score);
+}
 
 Preference PreferenceCreate() {
     Preference preference = (Preference) malloc(sizeof(*preference));
@@ -24,6 +29,7 @@ Preference PreferenceCreate() {
 }
 void PreferenceDestroy(Preference preference){
     if(preference==NULL)return;
+    free(preference->preference_score);
     free(preference->candidate_id);
     free(preference);
 }
@@ -47,7 +53,7 @@ bool PreferenceIsEqual(Preference source_preference, Preference new_preference){
     (*source_preference->preference_score==*new_preference->preference_score);
 }
 bool PreferenceCompare(Preference old_preference,Preference new_preference){
-    return *(old_preference->preference_score)<=*(new_preference->preference_score);
+    return *(old_preference->preference_score)>*(new_preference->preference_score);
 }
 int PreferenceGetCandidateId(Preference preference){
     if(preference==NULL)return NOT_FOUND;

@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "City.h"
+#include "set.h"
 struct City_t{
     Id id;
     String name;
@@ -14,16 +15,6 @@ struct City_t{
     Set candidates;
 
 };
-void CityPrint(City city){
-
-    printf("People Of:%s\n",city->name);
-    printf("ID:%d\n",*city->id);
-    printf("======================\n");
-    SET_FOREACH(Citizen,citizen,city->citizens)
-        PrintCitizen(citizen);
-
-}
-
 int CityGetId(City city){
     return *(city->id);
 }
@@ -37,9 +28,11 @@ Set CityGetCandidates(City city){
     return city->candidates;
 }
 void CityDestroy(City city){
+    if(city==NULL)return ;
    free(city->name);
    free(city->id);
     setDestroy(city->citizens);
+    setDestroy(city->candidates);
     free(city);
 }
 City CityCreate(){
@@ -78,13 +71,13 @@ City CityCopy(City source_city){
 }
 CitizenResult CityInsertCitizen(City city,const String citizen_name,
         int citizen_id, int citizen_age, int education_years){
-    //lkjk
         //the whole function were replaced
         Citizen new_citizen=CitizenCreate();
         if(new_citizen==NULL)return CITIZEN_MEMORY_ERROR;
         CitizenInsertInformation(new_citizen,citizen_id,citizen_name,
                 education_years,citizen_age);
     SetResult result=setAdd(city->citizens,new_citizen);
+    CitizenDestroy(new_citizen);
     switch(result){
         case SET_NULL_ARGUMENT:
             return CITIZEN_NULL_ARGUMENT;
@@ -127,7 +120,7 @@ bool CityIsCandidateACitizen(City city,int candidate_to_be_id){
       Citizen citizen=setGetFirst(city->citizens);
       while (citizen)
       {
-          int citizen_id=CitizenGetid(citizen);
+          int citizen_id= CitizenGetId(citizen);
           if(citizen_id==candidate_to_be_id)return true;
           citizen=setGetNext(city->citizens);
       }
@@ -152,7 +145,7 @@ Citizen CityGetCitizen(City city,int citizen_id){
        return DOES_NOT_EXIST;
    //the whole function were replaced with set for each
     SET_FOREACH(Citizen,citizen,city->citizens)
-    if(CitizenGetid(citizen)==citizen_id)
+    if(CitizenGetId(citizen)==citizen_id)
         return citizen;
     return DOES_NOT_EXIST;
 }
@@ -163,6 +156,7 @@ CandidateResult CityInsertCandidate(City city, int candidate_id){
     Candidate candidate=CandidateCreate();
     CandidateInsertInformation(candidate,candidate_id);
     SetResult add_candidate_result=setAdd(city->candidates,candidate);
+    CandidateDestroy(candidate);
     switch (add_candidate_result){
         case SET_NULL_ARGUMENT:
             return CANDIDATE_NULL_ARGUMENT;
@@ -170,7 +164,10 @@ CandidateResult CityInsertCandidate(City city, int candidate_id){
             return CANDIDATE_MEMORY_ERROR;
         case SET_ITEM_ALREADY_EXISTS:
             return CANDIDATE_ALREADY_EXISTS;
-        default:return CANDIDATE_SUCCESS;
+        default:{
+            CitizenSupportCandidate(candidate_to_be,candidate_id,0);
+            return CANDIDATE_SUCCESS;}
+
     }
 }
 void CityInsertInformation(City city, const String name, int id){
@@ -196,12 +193,13 @@ CityResult  CitySupportCandidate(City city,Citizen citizen,int candidate_id,int 
     Citizen candidate = CityGetCitizen(city, candidate_id);
     if (candidate == NULL)
         return CITY_NOT_THE_SAME_CITY;
-    if (CitizenCandidateAlreadySupported(city, citizen, candidate_id, priority))
+    if (CitizenIsCandidateSupported(city, citizen, candidate_id))
             return CITY_CANDIDATE_ALREADY_SUPPORTED;
-   if (CityIsCandidate(city,CitizenGetid(citizen)))
+   if (CityIsCandidate(city, CitizenGetId(citizen)))
         return CITY_CITIZEN_CAN_NOT_SUPPORT;
     if(!(CitizenSupportCandidate(citizen,candidate_id,priority)))
         return CITY_CITIZEN_PRIORITY_EXISTS;
+
     return CITY_SUCCESS;
 }
 void CityCitizenRemovePrefrence(City city,int candidate_id){
@@ -238,9 +236,7 @@ CityResult CityMayorOfCity(City city,Id mayor){
         Citizen candidate=CityGetCitizen(city,candidate_id);
         VoteInsertInformation(new_vote,candidate_id,
                 CitizenGetInformation(candidate,CITIZEN_NAME),
-                VoteCandidateGetVotes(old_vote)+VOTE,
-                *(int*)CitizenGetInformation(candidate,CITIZEN_EDUCATION_YEARS),
-                *(int*) CitizenGetInformation(candidate,CITIZEN_AGE));
+                VoteCandidateGetVotes(old_vote)+VOTE);
         if(CityUpdateCandidateVotes(votes,new_vote,old_vote)==CITY_MEMORY_ERROR)
             return CITY_MEMORY_ERROR;
        // printf("mayor so far:%d",VoteCandidateGetId(uniqueOrderedListGetLowest(votes)));
@@ -250,10 +246,11 @@ CityResult CityMayorOfCity(City city,Id mayor){
     return CITY_SUCCESS;
 }
 Vote CityGetCandidateVote(UniqueOrderedList votes, int candidate_id){
+
     Vote votes_ptr=uniqueOrderedListGetLowest(votes);
     while(votes_ptr){
-        if(27==candidate_id){
-            printf("a vote were found for %d\n",candidate_id);
+        if(VoteCandidateGetId(votes_ptr)==candidate_id){
+         //   printf("a vote were found for %d\n",candidate_id);
             return votes_ptr;}
         votes_ptr=uniqueOrderedListGetNext(votes);
     }

@@ -14,16 +14,6 @@ struct Citizen_t{
   EducationYears education_years;
   UniqueOrderedList prefrences;
 };
-void PrintCitizen(Citizen citizen){
-
-    printf("Citizen Name:%s\n",citizen->name);
-    printf("Citizen Age:%d\n",*citizen->age);
-    printf("Citizen ID:%d\n",*citizen->id);
-    printf("Citizen Education Years:%d\n",*citizen->education_years);
-    printf("----------------------\n");
-
-}
-
 Citizen CitizenCreate(){
     //malloc for name will be added in copy, since we dont know the size of name yet
     Citizen citizen=(Citizen)malloc(sizeof(*citizen));
@@ -53,6 +43,7 @@ void CitizenDestroy(Citizen citizen)
     //always check if  object==NULL before accessing struct fields!
     if(citizen==NULL) return;
     free(citizen->age);
+    free(citizen->name);
     free(citizen->education_years);
     free(citizen->id);
     uniqueOrderedListDestroy(citizen->prefrences);
@@ -73,20 +64,19 @@ Citizen CitizenCopy(Citizen source_citizen){
         return NULL;
     }
     StringCopy(source_citizen->name,new_citizen->name);
-    new_citizen->id=source_citizen->id;
-    new_citizen->education_years=source_citizen->education_years;
-    new_citizen->age=source_citizen->age;
+    *(new_citizen->id)=*(source_citizen->id);
+    *(new_citizen->education_years)=*(source_citizen->education_years);
+    *(new_citizen->age)=*(source_citizen->age);
     return new_citizen;
 }
 /*
  * returns CITIZEN_ALREADY_SIPPORETED in case of the citizen is already supporting this candidate, otherwise, CITIZEN_SUCCESS
  */
-bool CitizenCandidateAlreadySupported(City city, Citizen citizen, int candidate_id,int priority) {
-    Preference citizen_preference=PreferenceCreate();
-    PreferenceInsertInformation(citizen_preference, candidate_id, priority);
+bool CitizenIsCandidateSupported(City city, Citizen citizen, int candidate_id) {
     Preference citizen_old_preference = CitizenFindPrefernce(citizen,candidate_id);
-    if(!citizen_old_preference)
-        return false ;
+    if(!citizen_old_preference) {
+        return false;
+    }
     return true;
    // UniqueOrderedList result=uniqueOrderedListInsert(citizen->prefrences,citizen_preference);
 
@@ -98,6 +88,7 @@ int CitizenCompare(Citizen old_citizen,Citizen new_citizen){
 }
 
 void* CitizenGetInformation(Citizen citizen,CitizenInformation desirable_information) {
+    if(citizen==DOES_NOT_EXIST)return DOES_NOT_EXIST;
     //للأمانة انا غير متأكد من الدالّة يا لينا الع!
     switch (desirable_information) {
         case CITIZEN_ID:return (citizen->id);
@@ -111,6 +102,7 @@ void CitizenCandidateToBeRemovePrefrences(Citizen citizen){
     uniqueOrderedListClear(citizen->prefrences);
 }
 Preference CitizenFindPrefernce(Citizen citizen,int candidate_id) {
+    if(citizen==DOES_NOT_EXIST)return DOES_NOT_EXIST;
     Preference vote = uniqueOrderedListGetLowest(citizen->prefrences);
     while (vote) {
         if (PreferenceGetCandidateId(vote) == candidate_id)
@@ -123,7 +115,7 @@ CitizenResult CitizenRemovePrefrence(Citizen citizen, int candidate_id ){
     Preference vote =CitizenFindPrefernce(citizen,candidate_id);
     if(vote==DOES_NOT_EXIST)
         return CITIZEN_DOES_NOT_SUPPORT_CANDIDATE;
-    uniqueOrderedListRemove(citizen->prefrences, vote);
+    uniqueOrderedListRemove(citizen->prefrences,vote);
     return CITIZEN_SUCCESS;
 }
 /*Preference CitizenGetPrefrence(Citizen citizen,int candidate_id)
@@ -137,7 +129,7 @@ gogo wq7...
         }
     }
 }*/
-int CitizenGetid(Citizen citizen){
+int CitizenGetId(Citizen citizen){
     if(citizen==NULL)return NOT_FOUND;
     return *(citizen->id);
 }
@@ -158,7 +150,11 @@ bool CitizenSupportCandidate(Citizen citizen,int candidate_id,int priority){
     Preference vote=PreferenceCreate();
     PreferenceInsertInformation(vote, candidate_id, priority);
     if(uniqueOrderedListInsert(citizen->prefrences,vote)==UNIQUE_ORDERED_LIST_ITEM_ALREADY_EXISTS)
+    {
+        PreferenceDestroy(vote);
         return false;
+    }
+    PreferenceDestroy(vote);
     return true;
 }
 Preference CitizenGetPreferredCandidate(Citizen citizen){

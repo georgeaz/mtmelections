@@ -4,7 +4,7 @@
 #include <time.h>
 #include "uniqueOrderedList/uniqueOrderedList.h"
 #include "mtm_elections.h"
-
+#include "set.h"
 
 //int mtmElectionsRankByAge(MtmElections mtmElections, int citizen, void* pAge);
 
@@ -297,9 +297,8 @@ int main(){
     assert(mtmElectionsSupportCandidate(e, 12 ,2971 ,10 )==MTM_ELECTIONS_CANDIDATE_DOES_NOT_EXIST);
 
     int mayor;
-   // ElectionsPrint(e);
+
     mtmElectionsMayorOfCity(e, 1, &mayor, "A");
-    if(mayor==27)printf("sex");
 
     assert(mayor==27);
 
@@ -1309,15 +1308,16 @@ int main(){
     mtmElectionsSupportCandidate(p, 316, 318 ,2);
     mtmElectionsSupportCandidate(p, 316, 319 ,0); // 5 votes for 319
     mtmElectionsSupportCandidate(p, 316, 320 ,3);
+//    int mayorid;
+//    mtmElectionsMayorOfCity(p,5,&mayorid,"gg");
+//    printf("mayor is:%d",mayorid);
 
+    UniqueOrderedList result = mtmElectionsPerformElections(p, NULL, &x, "test5");
 
+int* ttt = uniqueOrderedListGetLowest(result);
 
-    UniqueOrderedList result = mtmElectionsPerformElections(p, NULL, NULL, "test5");
-
-    int* ttt = uniqueOrderedListGetLowest(result);
-
-    assert(*ttt==118);
-
+   assert(*ttt==118);
+    printf("winner:%d",*ttt);
     ttt = uniqueOrderedListGetNext(result);
 
     assert(*ttt==18);
@@ -1472,8 +1472,7 @@ int main(){
 
 
 
-    result = mtmElectionsPerformElections(NULL,
-                                          NULL, yyy , "test66");
+    result = mtmElectionsPerformElections(NULL, NULL, yyy , "test66");
 
     assert(result==NULL);
     uniqueOrderedListDestroy(result);
@@ -1496,7 +1495,7 @@ int main(){
     result = mtmElectionsPerformElections(u,
                                           &ZERORANK, yyy , "test66");
 
-    assert(result==NULL);
+    assert(uniqueOrderedListSize(result)==0);
 
     uniqueOrderedListDestroy(result);
 

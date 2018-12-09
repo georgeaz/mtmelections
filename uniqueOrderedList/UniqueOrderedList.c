@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "uniqueOrderedList.h"
-#include "Vote.h"
+
 Element  uniqueOrderedListGetPreviousElemnt(UniqueOrderedList ,Element );
 //we should check if we have to use for each
 //should also check if we have to put the list struct in seperate.h file
@@ -29,22 +29,6 @@ struct uniqueOrderedList_t {
     elementGreaterThan compare;
 
 };
-void printiterator(UniqueOrderedList list) {
-    printf("%d \n", *(int *) ((list->iterator->element)));
-
-}
-void printunique(UniqueOrderedList list){
-    printf("\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS\n");
-if(list->iterator==NULL){printf("iterator is null");
-return;}
-    uniqueOrderedListGetLowest(list);
-    while(list->iterator) {
-        VotePrint(list->iterator->element);
-       uniqueOrderedListGetNext(list);
-    }
-    printf("\nDDDDDDDDDDDDDDDDDDDDDDDDDD\n");
-
-}
  void DestroyListNode(List node){//this should be inline
     free(node);
 }
@@ -224,7 +208,7 @@ UniqueOrderedList uniqueOrderedListCreate(copyElements copy,freeElements destroy
     return  uniqueorderedlist;
 }
 UniqueOrderedListResult uniqueOrderedListRemove
-(UniqueOrderedList uniqueorderedlist, Element to_remove){
+(UniqueOrderedList uniqueorderedlist,Element to_remove){
 
     if(to_remove==NULL || uniqueorderedlist==NULL){
         return UNIQUE_ORDERED_LIST_NULL_ARGUMENT;

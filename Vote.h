@@ -9,7 +9,7 @@
 
 Vote VoteCreate();
 void VoteInsertInformation(Vote vote,int candidate_id, Name candidate_name, int
-candidate_votes, int candidate_education_years, int candidate_age);
+candidate_votes);
 Vote  VoteCopy(Vote vote);
 void VoteDestroy(Vote vote);
 bool VoteIsEqual(Vote vote_old,Vote vote_new);

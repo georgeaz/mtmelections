@@ -18,7 +18,7 @@ add_executable(3011
         City.h
         City.c
         typedefs_and_general_functions.c
-        typedefs_and_general_functions.h preference.c preference.h Candidate.h Candidate.c Vote.c Vote.h)
+        typedefs_and_general_functions.h preference.c preference.h Candidate.h Candidate.c Vote.c Vote.h mayor.h mayor.c)
 
 target_link_libraries(3011 ${CMAKE_SOURCE_DIR}/libmtm.a )
 set(CMAKE_C_FLAGS "-std=c99 -Wall -Werror -pedantic-errors ")

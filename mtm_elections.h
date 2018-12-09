@@ -8,7 +8,6 @@
 #ifndef MTM_ELECTIONS_H_
 #define MTM_ELECTIONS_H_
 
-#include "uniqueOrderedList/uniqueOrderedList.h"
 #include "typedefs_and_general_functions.h"
 
 typedef enum mtmElectionsResult_t{

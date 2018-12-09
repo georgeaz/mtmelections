@@ -2,7 +2,6 @@
 #define SET_H_
 
 #include <stdbool.h>
-
 /**
 * Generic Set Container
 *
