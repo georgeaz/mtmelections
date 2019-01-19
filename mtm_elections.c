@@ -2,7 +2,6 @@
 //
 // Created by George on 12/2/2018.
 //
-#include "uniqueOrderedList/uniqueOrderedList.h"
 #include "citizen.h"
 #include "City.h"
 #include "mtm_elections.h"

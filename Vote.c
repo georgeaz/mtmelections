@@ -85,10 +85,3 @@ int VoteCandidateGetVotes(Vote vote){
     if(vote==DOES_NOT_EXIST)return NO_VOTES;
     return *(vote->candidate_votes);
 }
-void VotePrint(Vote vote){
-    printf("==============================\n");
-    printf("Vote for:%d\n",*(vote->candidate_id));
-    printf("Votes so far:%d\n",*(vote->candidate_votes));
-
-    printf("==============================\n");
-}

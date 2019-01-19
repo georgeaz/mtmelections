@@ -2,11 +2,9 @@
 // Created by George on 11/29/2018.
 //
 #include "citizen.h"
-#include "uniqueOrderedList/uniqueOrderedList.h"
 #include "preference.h"
 #include <stdlib.h>
 #include <stdio.h>
-//we should include this in general functions
 struct Citizen_t{
   Name name;
   Age age;
@@ -55,9 +53,8 @@ Citizen CitizenCopy(Citizen source_citizen){
 
     if(source_citizen==NULL||new_citizen==NULL)
         return NULL;
-    //we should check this!
-//    *(new_citizen->name)=StringCopy(*(new_citizen->name));
     new_citizen->name=(String)malloc(sizeof(String*)*Stringlength(source_citizen->name));
+    uniqueOrderedListDestroy(new_citizen->prefrences);
     new_citizen->prefrences=uniqueOrderedListCopy(source_citizen->prefrences);
     if(new_citizen->name==NULL||new_citizen->prefrences==NULL){
         CitizenDestroy(new_citizen);
@@ -78,9 +75,7 @@ bool CitizenIsCandidateSupported(City city, Citizen citizen, int candidate_id) {
         return false;
     }
     return true;
-   // UniqueOrderedList result=uniqueOrderedListInsert(citizen->prefrences,citizen_preference);
 
-    //switch(result
 
 }
 int CitizenCompare(Citizen old_citizen,Citizen new_citizen){

@@ -13,7 +13,6 @@ void mtmPrintMayorDetails(int mayorId, int age, int yearsOfEducation, char* mayo
 	fprintf(file,"Mayor: \n");
 	fprintf(file,"	Name: %s\n", mayorName);
 	fprintf(file,"	ID:   %d\n", mayorId);
-	printf("mayor id :%d\n",mayorId);
 	fprintf(file,"	Age:  %d\n", age);
 	fprintf(file,"	Years of education:  %d\n", yearsOfEducation);
 	fprintf(file,"****************************************\n");

@@ -6,7 +6,7 @@
 #define HOMEWORK2ELECTIONS_CITIZEN_H
 #include "set.h"
 #include "typedefs_and_general_functions.h"
-
+#include "mtm_uol/uniqueOrderedList.h"
 
 typedef enum CitizenResult_t{
     CITIZEN_MEMORY_ERROR,

@@ -19,12 +19,46 @@ typedef enum CandidateResult_t{
   CANDIDATE_ILLEGAL_ID,
   CANDIDATE_AGE_NOT_APPROPRIATE
 }CandidateResult;
-
-int CandidateGetId(Candidate candidate);
+/**
+* 	CandidateInsertInformation: adds candidate information to the new allocated candidate.
+* @param id -
+* @param name -
+* @param education_years -
+* @param age -
+*               All of the above params are the new allocated candidate information.
+* @param candidate -  the new allocated candidate
+* @return
+ */
 void CandidateInsertInformation(Candidate,int);
+/**
+* CandidateCreate: Allocates a new empty Candidate.
+* @return
+* 	NULL - if allocations failed.
+* 	A new Candidate in case of success.
+*/
 Candidate CandidateCreate();
+/**
+* CandidateDestroy: Deallocates an existing Candidate. Clears all elements.
+*
+* @param Candidate - Target Candidate to be deallocated.
+ * If Candidate is NULL nothing will be done
+*
+*/
 void CandidateDestroy(Candidate);
+/**
+* CandidateCopy: Creates a copy of target Candidate.
+*
+* @param Candidate - Target Candidate.
+* @return
+* 	NULL if a NULL was sent or a memory allocation failed.
+* 	A Candidate containing the same elements as Candidate.
+*/
 Candidate CandidateCopy(Candidate );
+/**CandidateCompare: checks if the Candidate id's are equal.
+ *  @return
+ *      0 - if the Candidate id's are equal.
+ *      negative or positive int - otherwise.
+* */
 int CandidateCompare(Candidate ,Candidate);
 
 

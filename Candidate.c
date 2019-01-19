@@ -39,6 +39,3 @@ Candidate CandidateCopy(Candidate source_candidate){
 int CandidateCompare(Candidate candidate_new,Candidate candidate_old){
     return *(candidate_new->id)-*(candidate_old->id);
 }
-int CandidateGetId(Candidate candidate){
-    return *(candidate->id);
-}
